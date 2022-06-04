@@ -9,16 +9,18 @@ function getCurrDateAndTime() {
 
 var hoursArry =
     [
-        "9am",
-        "10am",
-        "11am",
-        "12pm",
-        "1pm",
-        "2pm",
-        "3pm",
-        "4pm",
-        "5pm"
+        "9 am",
+        "10 am",
+        "11 am",
+        "12 pm",
+        "1 pm",
+        "2 pm",
+        "3 pm",
+        "4 pm",
+        "5 pm"
     ];
+
+
 
 
 // // save in tasks array
@@ -101,17 +103,25 @@ var updateListTimeColors = function () {
 
     debugger
     // current time
-    var now = moment().format("dddd, MMMM Do YYYY, h:mm:ss a");
-    console.log(now);
+    var nowTime = moment().format("h a");  
 
-    // list and childer items
+    debugger
+    // list and children items
     var itemListToColor = document.querySelector("#list-c2");
-    // each child gets a chance
+
+    // each child 
+// 9 to 5  = 0-8
+
+    var clrCntr= 0;
     for (var li of itemListToColor.children) {
-        console.log(li);
+
+        console.log( nowTime + " '' " +  hoursArry[clrCntr] + " .. " + li);
+
+        clrCntr++;
     }
 
-    // we compare the times
+    
+    debugger
 
 
 
