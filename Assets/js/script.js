@@ -99,7 +99,7 @@ $(".list-group").on("blur", "textarea", function () {
 });
 
 
-var updateListTimeColors = function (nowTestTime) {
+var updateListTimeColors = function () {
 
     // current time
     //   var nowTime = moment().format("ha");
@@ -159,11 +159,11 @@ var updateListTimeColors = function (nowTestTime) {
     // }
 };
 
-// setInterval(function () {
-//     $(".card .list-group-item").each(function (index, el) {
-//         updateListTimeColors(el);
-//     });
-// }, (1000 * 60) * .25); // 1/4 min
+setInterval(function () {
+    $(".card .list-group-item").each(function (index, el) {
+        updateListTimeColors(el);
+    });
+}, (1000 * 60) * 10); 
 
 
 
