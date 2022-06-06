@@ -98,7 +98,7 @@ $(".list-group").on("blur", "textarea", function () {
     $(this).replaceWith(taskP);
 });
 
-debugger
+
 var updateListTimeColors = function (nowTestTime) {
 
     // current time
@@ -111,7 +111,7 @@ var updateListTimeColors = function (nowTestTime) {
 
     for (var li of itemListToColor.children) {
 
-        debugger
+
 
         if (nowTime.includes('am') && hoursArry[clrCntr].includes('am')) {
 
@@ -147,7 +147,7 @@ var updateListTimeColors = function (nowTestTime) {
         };
         clrCntr++;
     };
-    debugger
+
 
     // $(taskEl).removeClass("hour list-group-item past present future");
 
