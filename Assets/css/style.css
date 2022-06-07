@@ -26,12 +26,13 @@ body {
 }
 
 .time-block{
+  /* white-space: nowrap; */
   text-align: center;
   border-radius: 15px;
 }
 
 .row {
-  white-space: pre-wrap;
+  white-space: nowrap;
   height: 80px;
   border-top: 1px solid white;;
 }

@@ -21,18 +21,54 @@ var hoursArry =
     ];
 
 
+var eventsArry = [];
+var eventItem = {};
+
+var loadEvents = function () {
+    // debugger
+    eventsArry = JSON.parse(localStorage.getItem("eventsList"));
+ 
+    // could add a date check
+    if (!eventsArry) {
+        return;
+    } 
+    // else {
+    //     console.log("load existing events");
+    //     var itemList = document.querySelector("#list-c2");
+    //     for (var i = 0; i < 9; i++) {
+    //         var li = itemList.children[i];
+    //         var txt = eventsArry[i];
+    //         li.textContent = txt;
+    //     };
+    // };
+};
+
+var saveEvents = function () {
+    // debugger
+    eventsArry.length = 0;
+
+    // overwrites all calandar events
+    // make each button work
+    // list and children items
+    var itemList = document.querySelector("#list-c2");
+    for (var i = 0; i < 9; i++) {
+        var li = itemList.children[i];
+        var txt = $(li).text();
+        console.log(txt);
+        eventsArry.push(txt);
+    };
+
+    localStorage.setItem("eventsList", JSON.stringify(eventsArry));
+    console.log(eventsArry);
+};
 
 
-// // save in tasks array
-// tasks.toDo.push({
-//   text: taskText,
-//   date: taskDate
-// });
-
-// saveTasks();
 
 
 function makeDayDisplay() {
+    if (eventsArry.length===0){
+
+ 
     for (var i = 0; i < hoursArry.length; i++) {
         //hour
         var taskLi = $("<li>").addClass("hour list-group-item");
@@ -41,7 +77,7 @@ function makeDayDisplay() {
         $("#list-c1").append(taskLi);
         //event
         var taskLi = $("<li>").addClass("list-group-item");
-        var taskP = $("<p>").addClass("m-1").text("event");
+        var taskP = $("<p>").addClass("m-1").text("add event");
         taskLi.append(taskP);
         $("#list-c2").append(taskLi);
         // save
@@ -50,9 +86,29 @@ function makeDayDisplay() {
         taskLi.append(taskP);
         $("#list-c3").append(taskLi);
     }
+}else{
+    for (var i = 0; i < hoursArry.length; i++) {
+        //hour
+        var taskLi = $("<li>").addClass("hour list-group-item");
+        var taskP = $("<p>").addClass("m-1").text(hoursArry[i]);
+        taskLi.append(taskP);
+        $("#list-c1").append(taskLi);
+        //event
+        var taskLi = $("<li>").addClass("list-group-item");
+        var taskP = $("<p>").addClass("m-1").text(eventsArry[i]);
+        taskLi.append(taskP);
+        $("#list-c2").append(taskLi);
+        // save
+        var taskLi = $("<li>").addClass("saveBtn list-group-item");
+        var taskP = $("<label>").addClass("m-1").text("s");
+        taskLi.append(taskP);
+        $("#list-c3").append(taskLi);
+    }
+}
 };
 
 $(".list-group").on("click", "label", function () {
+    saveEvents();
     console.log("save button");
 });
 
@@ -76,19 +132,6 @@ $(".list-group").on("blur", "textarea", function () {
     // get current value of textarea
     var text = $(this).val();
 
-    // get status type and position in the list
-    var status = $(this)
-        .closest(".list-group")
-        .attr("id")
-        .replace("list-", "");
-    var index = $(this)
-        .closest(".list-group-item")
-        .index();
-
-    // // update task in array and re-save to localstorage
-    // tasks[status][index].text = text;
-    // saveTasks();
-
     // recreate p element
     var taskP = $("<p>")
         .addClass("m-1")
@@ -96,77 +139,123 @@ $(".list-group").on("blur", "textarea", function () {
 
     // replace textarea with new content
     $(this).replaceWith(taskP);
+
+    // saveEvents(this);
+
 });
 
 
-var updateListTimeColors = function () {
+var updateListTimeColors = function () {  //nowTime) {
 
     // current time
-    //   var nowTime = moment().format("ha");
+    var nowTime = moment().format("ha");
 
     // list and children items
     var itemListToColor = document.querySelector("#list-c2");
 
-    var clrCntr = 0;
+    var colorsArry = [];
 
-    for (var li of itemListToColor.children) {
+    if (nowTime.includes('am')) {
+        var now = parseInt(nowTime.replace('am', ''));
 
-
-
-        if (nowTime.includes('am') && hoursArry[clrCntr].includes('am')) {
-
-            console.log('good morning');
-
-            var now = nowTime.replace('am', '');
-            var hrs = hoursArry[clrCntr].replace('am', '');
-
-            if (now === 12 || now < 9) {
-                console.log('all in future'); // color all green
-                continue;
-            }
-            if (now === hrs) {
-                console.log('present'); // red
-            }
-            if (now > hrs) {
-                console.log('past'); // grey
-            }
+        if (now === 12) {
+            colorsArry = [0, 0, 0, 0, 0, 0, 0, 0, 0]; //all future
         };
-        if (nowTime.includes('pm') && hoursArry[clrCntr].includes('pm')) {
-
-            console.log('good afternoon');
-
-            var now = nowTime.replace('pm', '');
-            var hrs = hoursArry[clrCntr].replace('pm', '');
-
-            if (now === 12) {
-                console.log('present');
-            }
-            if (now > hrs) {
-                console.log('future');
-            }
+        if (now < 9) {
+            colorsArry = [0, 0, 0, 0, 0, 0, 0, 0, 0]; //all future
         };
-        clrCntr++;
+        if (now === 9) {
+            colorsArry = [1, 0, 0, 0, 0, 0, 0, 0, 0]; //present
+        };
+        if (now === 10) {
+            colorsArry = [-1, 1, 0, 0, 0, 0, 0, 0, 0]; //-1 = past
+        };
+        if (now === 11) {
+            colorsArry = [-1, -1, 1, 0, 0, 0, 0, 0, 0];
+        };
+        for (var i = 0; i < 9; i++) {
+            var li = itemListToColor.children[i];
+            $(li).removeClass("past present future");
+
+            switch (colorsArry[i]) {
+                case -1:
+                    $(li).addClass("past");
+                    break;
+                case 1:
+                    $(li).addClass("present");
+                    break;
+                case 0:
+                    $(li).addClass("future");
+                    break;
+                default:
+                // code block
+            };
+        };
     };
+    if (nowTime.includes('pm')) {
+        var now = parseInt(nowTime.replace('pm', ''));
+        if (now === 12) {
+            colorsArry = [-1, -1, -1, 1, 0, 0, 0, 0, 0];
+        };
+        if (now === 1) {
+            colorsArry = [-1, -1, -1, -1, 1, 0, 0, 0, 0];
+        };
+        if (now === 2) {
+            colorsArry = [-1, -1, -1, -1, -1, 1, 0, 0, 0];
+        };
+        if (now === 3) {
+            colorsArry = [-1, -1, -1, -1, -1, -1, 1, 0, 0];
+        };
+        if (now === 4) {
+            colorsArry = [-1, -1, -1, -1, -1, -1, -1, 1, 0];
+        };
+        if (now === 5) {
+            colorsArry = [-1, -1, -1, -1, -1, -1, -1, -1, 1];
+        };
+        if (now > 5 && now != 12) {
+            colorsArry = [-1, -1, -1, -1, -1, -1, -1, -1, -1];
+        };
+        for (var i = 0; i < 9; i++) {
+            var li = itemListToColor.children[i];
+            $(li).removeClass("past present future");
 
-
-    // $(taskEl).removeClass("hour list-group-item past present future");
-
-    // if (moment().isAfter(time)) {
-    //   $(taskEl).addClass("list-group-item-danger");
-    // }
-    // else if (Math.abs(moment().diff(time, "days")) <= 2) {
-    //   $(taskEl).addClass("list-group-item-warning");
-    // }
+            switch (colorsArry[i]) {
+                case -1:
+                    $(li).addClass("past");
+                    break;
+                case 1:
+                    $(li).addClass("present");
+                    break;
+                case 0:
+                    $(li).addClass("future");
+                    break;
+                default:
+                // code block
+            };
+        };
+    };
 };
 
-setInterval(function () {
-    $(".card .list-group-item").each(function (index, el) {
-        updateListTimeColors(el);
-    });
-}, (1000 * 60) * 10); 
-
-
+loadEvents();
 
 makeDayDisplay();
 getCurrDateAndTime();
+updateListTimeColors();
+
+
+
+
+setInterval(function () {
+    $(".card .list-group-item").each(function (index, el) {
+        getCurrDateAndTime();
+        updateListTimeColors(el);
+    });
+}, (1000 * 60) * 1); // 1 min
+
+
+
+
+
+
+
 
