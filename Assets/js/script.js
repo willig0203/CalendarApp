@@ -144,7 +144,6 @@ $(".list-group").on("blur", "textarea", function () {
 
 });
 
-
 var updateListTimeColors = function () {  //nowTime) {
 
     // current time
@@ -241,9 +240,6 @@ loadEvents();
 makeDayDisplay();
 getCurrDateAndTime();
 updateListTimeColors();
-
-
-
 
 setInterval(function () {
     $(".card .list-group-item").each(function (index, el) {
