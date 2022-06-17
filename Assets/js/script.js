@@ -66,7 +66,8 @@ var saveEvents = function () {
 
 
 function makeDayDisplay() {
-    if (eventsArry.length===0){
+
+    if (!eventsArry){
 
  
     for (var i = 0; i < hoursArry.length; i++) {
