@@ -4,8 +4,8 @@ This is a simple calendar application that allows the user to save events for ea
 
 ## Image
 
-![](./assets/images/Screenshot.jpg)
-*Application*
+![Screenshot of main application](./Assets/images/Screenshot.jpg)
+
 
 ## Review
 
