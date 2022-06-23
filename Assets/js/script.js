@@ -27,11 +27,11 @@ var eventItem = {};
 var loadEvents = function () {
     // debugger
     eventsArry = JSON.parse(localStorage.getItem("eventsList"));
- 
+
     // could add a date check
     if (!eventsArry) {
         return;
-    } 
+    }
     // else {
     //     console.log("load existing events");
     //     var itemList = document.querySelector("#list-c2");
@@ -45,10 +45,15 @@ var loadEvents = function () {
 
 var saveEvents = function () {
     // debugger
-    eventsArry.length = 0;
+    if (eventsArry) {
+        eventsArry.length = 0;
+    } else {
+        eventsArry = new Array;
+    }
+
 
     // overwrites all calandar events
-    // make each button work
+    // TODO: make each button work for only that event
     // list and children items
     var itemList = document.querySelector("#list-c2");
     for (var i = 0; i < 9; i++) {
@@ -67,45 +72,45 @@ var saveEvents = function () {
 
 function makeDayDisplay() {
 
-    if (!eventsArry){
+    if (!eventsArry) {
 
- 
-    for (var i = 0; i < hoursArry.length; i++) {
-        //hour
-        var taskLi = $("<li>").addClass("hour list-group-item");
-        var taskP = $("<p>").addClass("m-1").text(hoursArry[i]);
-        taskLi.append(taskP);
-        $("#list-c1").append(taskLi);
-        //event
-        var taskLi = $("<li>").addClass("list-group-item");
-        var taskP = $("<p>").addClass("m-1").text("add event");
-        taskLi.append(taskP);
-        $("#list-c2").append(taskLi);
-        // save
-        var taskLi = $("<li>").addClass("saveBtn list-group-item");
-        var taskP = $("<label>").addClass("m-1").text("s");
-        taskLi.append(taskP);
-        $("#list-c3").append(taskLi);
+
+        for (var i = 0; i < hoursArry.length; i++) {
+            //hour
+            var taskLi = $("<li>").addClass("hour list-group-item");
+            var taskP = $("<p>").addClass("m-1").text(hoursArry[i]);
+            taskLi.append(taskP);
+            $("#list-c1").append(taskLi);
+            //event
+            var taskLi = $("<li>").addClass("list-group-item");
+            var taskP = $("<p>").addClass("m-1").text("add event");
+            taskLi.append(taskP);
+            $("#list-c2").append(taskLi);
+            // save
+            var taskLi = $("<li>").addClass("saveBtn list-group-item");
+            var taskP = $("<label>").addClass("m-1").text("s");
+            taskLi.append(taskP);
+            $("#list-c3").append(taskLi);
+        }
+    } else {
+        for (var i = 0; i < hoursArry.length; i++) {
+            //hour
+            var taskLi = $("<li>").addClass("hour list-group-item");
+            var taskP = $("<p>").addClass("m-1").text(hoursArry[i]);
+            taskLi.append(taskP);
+            $("#list-c1").append(taskLi);
+            //event
+            var taskLi = $("<li>").addClass("list-group-item");
+            var taskP = $("<p>").addClass("m-1").text(eventsArry[i]);
+            taskLi.append(taskP);
+            $("#list-c2").append(taskLi);
+            // save
+            var taskLi = $("<li>").addClass("saveBtn list-group-item");
+            var taskP = $("<label>").addClass("m-1").text("s");
+            taskLi.append(taskP);
+            $("#list-c3").append(taskLi);
+        }
     }
-}else{
-    for (var i = 0; i < hoursArry.length; i++) {
-        //hour
-        var taskLi = $("<li>").addClass("hour list-group-item");
-        var taskP = $("<p>").addClass("m-1").text(hoursArry[i]);
-        taskLi.append(taskP);
-        $("#list-c1").append(taskLi);
-        //event
-        var taskLi = $("<li>").addClass("list-group-item");
-        var taskP = $("<p>").addClass("m-1").text(eventsArry[i]);
-        taskLi.append(taskP);
-        $("#list-c2").append(taskLi);
-        // save
-        var taskLi = $("<li>").addClass("saveBtn list-group-item");
-        var taskP = $("<label>").addClass("m-1").text("s");
-        taskLi.append(taskP);
-        $("#list-c3").append(taskLi);
-    }
-}
 };
 
 $(".list-group").on("click", "label", function () {
